@@ -7,6 +7,10 @@ const ticketSchema= new Schema({
         type:String,
         required:true,
     },
+    department:{
+       type:String,
+       required:true
+    },
     description:{
         type:String,
         required:true
@@ -19,10 +23,6 @@ const ticketSchema= new Schema({
     owner:{
       type:Schema.Types.ObjectId,
       ref:"User"
-    },
-    Name:{
-        type:String,
-        required:true
     },
     evidence:{
         type:String
