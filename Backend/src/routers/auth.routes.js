@@ -1,0 +1,72 @@
+import express from "express";
+import 'express-async-errors';
+import jwt from "jsonwebtoken";
+import * as bcrypt from 'bcrypt';
+import { ACCESS_TOKEN_SECRET } from "./config";
+import { UserModel } from "../models/auth.model";
+
+const app = express();
+app.use(express.json());
+
+
+app.post("/api/signup", async (req, res) => {
+    const username = req.body.username;
+    const password = req.body.password;
+
+    try {
+
+        const existingUser = await UserModel.findOne({username});
+        if (existingUser){
+            res.status(409).json({
+                message : "Username already exists"
+            });
+            return;
+        }
+
+        const hashedPassword = await bcrypt.hash(password,10);
+
+        await UserModel.create({
+            username : username,
+            password : hashedPassword
+        });
+
+        res.json({
+            message : "User Signed Up"
+        });
+
+    } catch(e){
+        console.error(e);
+        res.status(500).json({
+            message : "Internal Server Error"
+        });
+        
+    }
+});
+
+app.post("/api/signin", async (req ,res)=>{
+    const { username, password } = req.body;
+    try {
+        const oldUser = await UserModel.findOne({ username });
+        if(!oldUser){
+            res.status(409).json({
+                message : "Invalid Username or Password"
+            });
+            return;
+        };
+
+        const matchUser = await bcrypt.compare(password, oldUser.password);
+        if (!matchUser){
+            res.status(403).json({
+                message : "Invalid Username or Password"
+            });
+            return;
+        };
+
+        const accesToken = jwt.sign({ userId : oldUser._id }, ACCESS_TOKEN_SECRET);
+        res.status(200).json({ accesToken : accesToken });
+
+    } catch(e) {
+        console.error(e);
+        res.status(500).json({ message : "Internal Server Error" });
+    }
+});

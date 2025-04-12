@@ -11,7 +11,7 @@ app.use(express.static('public'))
 app.use(cookieParser())
 
 //insert in DB
-const answer =async()=>{
+const answer = async ()=>{
     const tickets=[
         { 
             title:"Complaint against Staff",
