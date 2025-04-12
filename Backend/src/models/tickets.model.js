@@ -17,7 +17,7 @@ const ticketSchema= new Schema({
     },
     status:{
         type:String,
-        enum:["Solved","Pending"],
+        enum:["Solved","Pending","Rejected"],
         default:"Pending"
     },
     owner:{

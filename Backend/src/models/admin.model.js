@@ -35,7 +35,7 @@ const adminSchema=new Schema({
             required:true
         }
     },
-    refresh_token:{
+    refreshToken:{
         type:String
     }
 },{
@@ -59,7 +59,7 @@ adminSchema.methods.generateRefreshToken=async function(){
     },
     process.env.REFRESH_TOKEN_SECRET,
     {
-        expiresIn:REFRESH_TOKEN_EXPIRY
+        expiresIn:process.env.REFRESH_TOKEN_EXPIRY
     }
 )
 }
