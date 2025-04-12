@@ -2,7 +2,7 @@
 
 NyayaSetu is a unified platform designed to provide solutions for government services and legal assistance. It streamlines the process of submitting complaints, tracking their status, and resolving queries related to government services while offering users the ability to connect with legal professionals for personalized advice.
 
-This README explains the flowchart provided and details the functionalities, workflows, and features of NyayaSetu.
+This README explains the functionalities, workflows, and features of NyayaSetu.
 
 
 ## Overview of NyayaSetu
@@ -122,14 +122,14 @@ Administrators can export detailed reports in PDF format:
 ## Support System
 
 ### Chatbot Assistance
-NyayaSetu includes an AI-powered chatbot that provides:
+NyayaSetu includes an AI-powered RAG chatbot that provides:
 1. Navigation help for users unfamiliar with the interface.
 2. Quick answers to common questions about government services or complaint submission processes.
 3. Connection to live support agents for complex queries requiring human intervention.
 
 ---
 
-## User Flow Summary (Based on Flowchart)
+## User Flow Summary 
 
 1. Users authenticate via OTP/email registration or continue as guests with limited functionality.
 2. From the Home Dashboard, users select "Raise Complaint" or explore legal assistance options.
@@ -142,8 +142,5 @@ NyayaSetu includes an AI-powered chatbot that provides:
 
 ## Accessibility & Deployment
 
-NyayaSetu is designed to be accessible across devices (smartphones, tablets, desktops) ensuring inclusivity for all users. It leverages modern technologies like cloud hosting and containerization (Docker/Kubernetes) for scalability and reliability under heavy traffic conditions.
+NyayaSetu is designed to be accessible across devices (smartphones, tablets, desktops) ensuring inclusivity for all users. It leverages modern technologies.
 
-
-
-This README provides a detailed explanation of NyayaSetu's functionalities based on the flowchart provided above, ensuring clarity for all stakeholders involved in its development, deployment, and usage.
