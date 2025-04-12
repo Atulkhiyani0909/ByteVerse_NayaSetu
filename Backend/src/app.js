@@ -10,6 +10,8 @@ app.use(express.urlencoded({extended:true}))
 app.use(express.static('public'))
 app.use(cookieParser())
 
+
+
 //insert in DB
 const answer = async ()=>{
     const tickets=[
@@ -42,8 +44,9 @@ const answer = async ()=>{
 
 import adminRoutes from './routers/admin.routes.js'
 import workerRoutes from './routers/worker.routes.js'
+import authRoutes from './routers/auth.routes.js'
+app.use('/api/auth', authRoutes)
 app.use('/admin',adminRoutes)
 app.use('/worker',workerRoutes)
 
 export default app 
-

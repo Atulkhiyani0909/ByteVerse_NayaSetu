@@ -1,15 +1,15 @@
-import express from "express";
+import { Router } from "express";
 import 'express-async-errors';
 import jwt from "jsonwebtoken";
 import * as bcrypt from 'bcrypt';
 import { ACCESS_TOKEN_SECRET } from "./config";
 import { UserModel } from "../models/auth.model";
 
-const app = express();
-app.use(express.json());
+const router = Router();
+router.use(express.json());
 
 
-app.post("/api/signup", async (req, res) => {
+router.post("/signup", async (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
 
@@ -43,7 +43,7 @@ app.post("/api/signup", async (req, res) => {
     }
 });
 
-app.post("/api/signin", async (req ,res)=>{
+router.post("/signin", async (req ,res)=>{
     const { username, password } = req.body;
     try {
         const oldUser = await UserModel.findOne({ username });
@@ -70,3 +70,5 @@ app.post("/api/signin", async (req ,res)=>{
         res.status(500).json({ message : "Internal Server Error" });
     }
 });
+
+export default router;
