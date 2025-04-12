@@ -77,7 +77,7 @@ const AccessAndRefreshToken =async (workerID)=>{
     })
   }
 
-  
+
 const getTickets=async(req,res)=>{
     const id='67fa67997058edc85bfb78a8';
 
@@ -118,4 +118,4 @@ const toggleTicket=async(req,res)=>{
 }
 
 
-export {getTickets ,loginWorker , registerWorker}
+export {getTickets ,loginWorker , registerWorker ,toggleTicket}
