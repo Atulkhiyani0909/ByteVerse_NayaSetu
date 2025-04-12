@@ -4,7 +4,7 @@ import jwt, { decode } from "jsonwebtoken"
 import mongoose from 'mongoose';
 
 const allWorker = async (req, res) => {
-   const id=req.query._id;
+   const {id}=req.query;
     try {
       const admin = await Admin.aggregate([
         {

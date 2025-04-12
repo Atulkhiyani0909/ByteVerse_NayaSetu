@@ -4,9 +4,7 @@ import Tickets from '../models/tickets.model.js'
 import mongoose from "mongoose";
 
 const getTickets=async(req,res)=>{
-     const location='Gwalior'
-     const department ='Railway'
-     const id='67fa67997058edc85bfb78a8'
+   let {location , department , id}=req.query
 
     const tickets=await Worker.aggregate([
            {
