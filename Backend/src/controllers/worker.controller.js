@@ -20,66 +20,78 @@ const AccessAndRefreshToken =async (workerID)=>{
   }
   
   const registerWorker=async(req,res)=>{
-    const {email,name,city,state,gov_id,department,password}=req.body;
+   try {
+     const {email,name,city,state,gov_id,department,password}=req.body;
+      
      
-    
-    if(!req.body) return 'Error in getting Data'
-  
-    const newWorker=await Worker.create({
-      email:email,
-      name:name,
-      location:{
-        city:city,
-        state:state
-      },
-      gov_id:gov_id,
-      department:department,
-      password:password
-    })
-  
-    if(!newWorker) return "Error in Saving Data To DB";
-  
-    const worker=await Worker.findById(newWorker._id).select('-password')
-    
-    let {AccessToken,refreshToken}=await AccessAndRefreshToken(worker._id);
+     if(!req.body) return 'Error in getting Data'
    
+     const newWorker=await Worker.create({
+       email:email,
+       name:name,
+       location:{
+         city:city,
+         state:state
+       },
+       gov_id:gov_id,
+       department:department,
+       password:password
+     })
+   
+     if(!newWorker) return "Error in Saving Data To DB";
+   
+     const worker=await Worker.findById(newWorker._id).select('-password')
+     
+     let {AccessToken,refreshToken}=await AccessAndRefreshToken(worker._id);
     
-  
-    return res.status(201).cookie('refreshToken',refreshToken).cookie('accessToken',AccessToken).json({
-      worker
+     
+   
+     return res.status(201).cookie('refreshToken',refreshToken).cookie('accessToken',AccessToken).json({
+       worker
+     })
+   } catch (error) {
+    return res.status(400).json({
+      error
     })
+   }
   }
   
   const loginWorker=async(req,res)=>{
-    let {email,password}=req.body;
+    try {
+      let {email,password}=req.body;
+      
     
-  
-    const worker=await Worker.findOne({
-      email:email
-    })
-   
+      const worker=await Worker.findOne({
+        email:email
+      })
+     
+      
+      const check=await worker.comparePassword(password);
+      
+      if(!check){
+        return "Invalid Login Credentials"
+      }
     
-    const check=await worker.comparePassword(password);
+      const workers=await Worker.findOne({
+        email:email
+      }).select('-password -refreshToken')
     
-    if(!check){
-      return "Invalid Login Credentials"
+    
+      let {AccessToken,refreshToken}=await AccessAndRefreshToken(admin._id);
+      
+      return res.status(200).cookie('refreshToken',refreshToken).cookie('accessToken',AccessToken).json({
+          workers
+      })
+    } catch (error) {
+      return res.status(400).json({
+        error
+      })
     }
-  
-    const workers=await Worker.findOne({
-      email:email
-    }).select('-password -refreshToken')
-  
-  
-    let {AccessToken,refreshToken}=await AccessAndRefreshToken(admin._id);
-    
-    return res.status(200).cookie('refreshToken',refreshToken).cookie('accessToken',AccessToken).json({
-        workers
-    })
   }
 
 
 const getTickets=async(req,res)=>{
-    const id='67fa67997058edc85bfb78a8';
+    const id='67fa67997058edc85bfb78a8';  
 
     try {
         const worker=await Worker.findById(id).select('-password -refreshToken');
@@ -105,16 +117,22 @@ const getTickets=async(req,res)=>{
 
 
 const toggleTicket=async(req,res)=>{
-    const {id,Status}=req.params;
-    
-    const ticket=await Tickets.findById(id);
-    
-    ticket.Status=Status;
-    await ticket.save({validateBeforeSave:false});
-
-     return res.status(200).json({
-        ticket
-     })
+    try {
+      const {id,Status}=req.params;
+      
+      const ticket=await Tickets.findById(id);
+      
+      ticket.Status=Status;
+      await ticket.save({validateBeforeSave:false});
+  
+       return res.status(200).json({
+          ticket
+       })
+    } catch (error) {
+      return res.status(400).json({
+        error
+      })
+    }
 }
 
 
