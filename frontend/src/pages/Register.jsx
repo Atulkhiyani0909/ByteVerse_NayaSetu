@@ -63,16 +63,6 @@ const Register = () => {
                 />
               </div>
               
-              <div className="space-y-2">
-                <Label htmlFor="confirmPassword">Confirm Password</Label>
-                <Input 
-                  id="confirmPassword" 
-                  type="password" 
-                  placeholder="••••••••" 
-                  required 
-                />
-              </div>
-              
               <div className="flex items-center">
                 <input 
                   type="checkbox" 

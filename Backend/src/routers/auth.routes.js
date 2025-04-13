@@ -9,24 +9,26 @@ const router = Router();
 const JWTseceret = process.env.ACCESS_TOKEN_SECRET;
 
 router.post("/signup", async (req, res) => {
-    const username = req.body.username;
-    const password = req.body.password;
-
+    const {FullName, Email, PhoneNumber, Password} = req.body;
+    console.log(req.body);
+    
     try {
 
-        const existingUser = await UserModel.findOne({username});
+        const existingUser = await UserModel.findOne({Email});
         if (existingUser){
             res.status(409).json({
-                message : "Username already exists"
+                message : "Account already exists"
             });
             return;
         }
 
-        const hashedPassword = await bcrypt.hash(password,10);
+        const hashedPassword = await bcrypt.hash(Password,10);
 
         await UserModel.create({
-            username : username,
-            password : hashedPassword
+            FullName : FullName,
+            Email : Email,
+            PhoneNumber : PhoneNumber,
+            Password : hashedPassword
         });
 
         res.json({
