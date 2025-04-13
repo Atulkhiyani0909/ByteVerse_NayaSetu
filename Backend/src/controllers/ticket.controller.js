@@ -3,13 +3,12 @@ import Ticket from '../models/tickets.model.js';
 
 export const createTicket = async (req, res) => {
     try {
-        console.log(req.body);
+        
+        const id = req.params.id;
         
         const ticketData = {
             ...req.body,
-
-            //FOR TESTING PURPOSES ONLY
-            owner: "ae0ifghierhgdoaisnoiu", 
+            owner: id, 
             
 // TODO : when user logged in then the user._id and username is autoprovided by this 
 
