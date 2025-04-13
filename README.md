@@ -127,6 +127,9 @@ NyayaSetu includes an AI-powered RAG chatbot that provides:
 2. Quick answers to common questions about government services or complaint submission processes.
 3. Connection to live support agents for complex queries requiring human intervention.
 
+![image](https://github.com/user-attachments/assets/fd5901de-8c2a-4664-8eea-5e6487a4ffe3)
+
+
 ---
 
 ## User Flow Summary 
@@ -137,6 +140,12 @@ NyayaSetu includes an AI-powered RAG chatbot that provides:
 4. Verified complaints are stored in the system and converted into tickets for tracking.
 5. Tickets are routed to appropriate departments, where actions are taken, tracked, and resolved.
 6. Administrators use advanced tools like department-wise views, offender timelines, and reporting features for oversight and system improvement.
+
+
+![image](https://github.com/user-attachments/assets/06db2100-fa48-4e6a-b740-4a6fd5ddfc41)
+
+
+
 
 ---
 

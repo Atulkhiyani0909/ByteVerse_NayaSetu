@@ -101,7 +101,6 @@ const updateFees=async(req,res)=>{
     lawyer
   })
 }
-
 const updateCall = async (req, res) => {
   
     const { Call_id } = req.params;
@@ -110,15 +109,17 @@ const updateCall = async (req, res) => {
       return res.status(400).json({ error: "Request body is missing" });
     }
 
-    let { callTime, callProof } = req.body;
+    let { callTime } = req.body;
 
     if (!callTime) {
       return res.status(400).json({ error: "callTime is required" });
     }
 
     let proofUrl;
-    if (req.files && req.files.proof && req.files.proof.path) {
-      const proof = await uploadToCloudinary(req.files.proof.path);
+    console.log(req.files?.callProof?.path);
+    
+    if (req.files) {
+      const proof = await uploadToCloudinary(req.files?.callProof?.path);
       if (!proof) {
         return res.status(500).json({ error: "Cloud Error" });
       }
@@ -140,12 +141,13 @@ const updateCall = async (req, res) => {
 
     call.callCost = callCost;
     call.callTime = callTime;
-    call.callProof = proofUrl || callProof;
+    call.callProof = proofUrl;
 
     const updatedCall = await call.save();
 
     return res.status(200).json({ updatedCall });
 };
+
 
 const getCallHistory=async(req,res)=>{ //get the calls details -> update to get the nested lookup to get the userinfo through calls userID
   const {id}=req.params;
