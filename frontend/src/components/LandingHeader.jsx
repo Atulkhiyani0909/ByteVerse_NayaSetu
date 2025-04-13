@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Menu } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import TowerBridgeSVG from './icons/MainLogo';
 
 const LandingHeader = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,11 +22,9 @@ const LandingHeader = () => {
       <div className="container mx-auto flex justify-between items-center py-4 px-4">
         <div className="flex items-center space-x-4">
           <Link to="/">
-            <img 
-              src="/placeholder.svg" 
-              alt="NyayaSetu Logo" 
-              className="h-10 w-10" 
-            />
+            <div className="text-[#1A5F7A]">
+              <TowerBridgeSVG />
+            </div>
           </Link>
           <h2 className="text-2xl font-bold text-[#1A5F7A]">NyayaSetu</h2>
         </div>

@@ -3,13 +3,12 @@ import Ticket from '../models/tickets.model.js';
 
 export const createTicket = async (req, res) => {
     try {
-        console.log(req.body);
+        
+        const id = req.params.id;
         
         const ticketData = {
             ...req.body,
-
-            //FOR TESTING PURPOSES ONLY
-            owner: "ae0ifghierhgdoaisnoiu", 
+            owner: id, 
             
 // TODO : when user logged in then the user._id and username is autoprovided by this 
 
@@ -27,7 +26,9 @@ export const createTicket = async (req, res) => {
 
 export const getUserTickets = async (req, res) => {
     try {
-        const tickets = await Ticket.find({ owner: "ae0ifghierhgdoaisnoiu" });
+        const id = req.params.id;
+
+        const tickets = await Ticket.find({ owner: id });
         res.status(200).json(tickets);
     } catch (error) {
         res.status(500).json({ message: 'Error fetching tickets', error });
