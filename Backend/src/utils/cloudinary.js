@@ -13,7 +13,7 @@ import { v2 as cloudinary } from 'cloudinary';
             
             const file_Details=await cloudinary.uploader.upload(localFilePath,{
                 resource_type:"auto",
-                folder:'NayaSetu' 
+                folder:'NyayaSetu' 
             });
             
 

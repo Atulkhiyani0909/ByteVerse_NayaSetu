@@ -53,19 +53,19 @@ const lawyerSchema=new Schema({
     timestamps:true
 })
 
-Lawyer.pre("save",async function(next){
+lawyerSchema.pre("save",async function(next){
     if(!this.isModified("passowrd")) return next();
 
     this.password=await bcrypt.hash(this.password,10);
     next();
 })
 
-Lawyer.method.comparePassword=async function(InputPassword){
+lawyerSchema.method.comparePassword=async function(InputPassword){
     return bcrypt.compare(InputPassword,this.password);
 }
 
 
-Lawyer.methods.generateRefreshToken=async function(){
+lawyerSchema.methods.generateRefreshToken=async function(){
     return jwt.sign({
         _id:this._id
     },
@@ -76,7 +76,7 @@ Lawyer.methods.generateRefreshToken=async function(){
  )
 }
 
-Lawyer.methods.generateAccessToken=async function(){
+lawyerSchema.methods.generateAccessToken=async function(){
     return jwt.sign({
         _id:this._id,
         Name:this.Name,

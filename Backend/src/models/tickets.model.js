@@ -7,6 +7,13 @@ const ticketSchema = new Schema({
         type: String,
         required: true,
     },
+    department:{
+       type:String,
+       required:true
+    },
+    description:{
+        type:String,
+        required:true
     description: {
         type: String,
         required: true
@@ -15,11 +22,21 @@ const ticketSchema = new Schema({
         type: String,
         required: true,
     },
+    status:{
+        type:String,
+        enum:["Solved","Pending","Rejected"],
+        default:"Pending"
     status: {
         type: String,
         enum: ["Solved", "Pending"],
         default: "Pending"
     },
+    owner:{
+      type:Schema.Types.ObjectId,
+      ref:"User"
+    },
+    evidence:{
+        type:String
     owner: {
         // type: Schema.Types.ObjectId || String,
         type: String,
