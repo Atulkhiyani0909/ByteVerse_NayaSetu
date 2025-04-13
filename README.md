@@ -4,6 +4,17 @@ NyayaSetu is a unified platform designed to provide solutions for government ser
 
 This README explains the functionalities, workflows, and features of NyayaSetu.
 
+## 🔗 Useful Links
+
+### 📽️ Demo Video  
+[Google Drive Video Folder](https://drive.google.com/drive/folders/1UN9x0twXmarYUpNzDuIZg7cHfSz3Twff?usp=drive_link)
+
+### 📊 Presentation (PPT)  
+[Google Slides Presentation](https://docs.google.com/presentation/d/1KRUpjX5wm9fLETRXPa5Zhr8FH7MRKKLu/edit?usp=sharing&ouid=112455939059999465296&rtpof=true&sd=true)
+
+### 🌐 Live Deployment  
+[NyayaSetu App on Render](https://byteverse-nyayasetu.onrender.com)
+
 
 ## Overview of NyayaSetu
 
