@@ -45,17 +45,15 @@ const answer = async ()=>{
 import adminRoutes from './routers/admin.routes.js'
 import workerRoutes from './routers/worker.routes.js'
 import authRoutes from './routers/auth.routes.js'
-app.use('/api/auth', authRoutes)
+import ticketRoutes from './routers/ticket.routes.js'
 import lawyerRoutes from './routers/lawyer.routes.js'
 
+app.use('/api/auth', authRoutes)
 app.use('/admin',adminRoutes)
 app.use('/worker',workerRoutes)
 app.use('/lawyer',lawyerRoutes)
-import ticketRoutes from './routers/ticket.routes.js'
-
-app.use('/admin', adminRoutes)
 app.use('/tickets', ticketRoutes);
 
 export default app 
-export default app
+
 
