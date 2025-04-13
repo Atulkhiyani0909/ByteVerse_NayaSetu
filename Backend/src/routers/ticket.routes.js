@@ -7,6 +7,6 @@ const router = express.Router();
 
 router.post('/:id', createTicket);
 
-router.get('/', getUserTickets);
+router.get('/:id', getUserTickets);
 
 export default router;

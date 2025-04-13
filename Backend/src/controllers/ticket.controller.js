@@ -26,7 +26,9 @@ export const createTicket = async (req, res) => {
 
 export const getUserTickets = async (req, res) => {
     try {
-        const tickets = await Ticket.find({ owner: "ae0ifghierhgdoaisnoiu" });
+        const id = req.params.id;
+
+        const tickets = await Ticket.find({ owner: id });
         res.status(200).json(tickets);
     } catch (error) {
         res.status(500).json({ message: 'Error fetching tickets', error });
