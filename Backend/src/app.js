@@ -42,8 +42,11 @@ const answer =async()=>{
 
 import adminRoutes from './routers/admin.routes.js'
 import workerRoutes from './routers/worker.routes.js'
+import lawyerRoutes from './routers/lawyer.routes.js'
+
 app.use('/admin',adminRoutes)
 app.use('/worker',workerRoutes)
+app.use('/lawyer',lawyerRoutes)
 
 export default app 
 
