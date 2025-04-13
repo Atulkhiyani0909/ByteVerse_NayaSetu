@@ -26,8 +26,8 @@ const features = [
   {
     icon: HelpCircle,
     title: "Support Chatbot",
-    description: "AI-powered assistance for quick resolutions.",
-    link: "/complaint"  // Changed from /support to /complaint since support page doesn't exist yet
+    description: "NayaSetuAI-powered assistance for quick resolutions.",
+    link: "https://huggingface.co/spaces/AdiSomani123/NyayaSetu" 
   },
   {
     icon: ShieldCheck,
