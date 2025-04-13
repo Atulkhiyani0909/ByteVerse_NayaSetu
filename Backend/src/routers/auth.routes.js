@@ -2,10 +2,11 @@ import { Router } from "express";
 import jwt from "jsonwebtoken";
 import bcrypt from 'bcrypt';
 import { UserModel } from "../models/auth.model.js";
+import dotenv from 'dotenv';
 
+dotenv.config()
 const router = Router();
 const JWTseceret = process.env.ACCESS_TOKEN_SECRET;
-
 
 router.post("/signup", async (req, res) => {
     const username = req.body.username;
