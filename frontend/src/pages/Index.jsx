@@ -4,8 +4,11 @@ import { Link } from 'react-router-dom';
 import LandingHeader from '@/components/LandingHeader';
 import LandingFeatures from '@/components/LandingFeatures';
 import { Button } from '@/components/ui/button';
+import { useAuth } from '../../hooks/auth-context';
 
 const Index = () => {
+  const { isAuthenticated } = useAuth();
+
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
       <LandingHeader />
@@ -20,20 +23,22 @@ const Index = () => {
             efficient complaint management and legal assistance platform.
           </p>
           
-          <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4 mb-16">
-            <Link 
-              to="/register" 
-              className="bg-[#FF6B35] text-white px-8 py-3 rounded-lg hover:bg-orange-600 transition inline-block"
-            >
-              Register Now
-            </Link>
-            <Link 
-              to="/login" 
-              className="border-2 border-[#1A5F7A] text-[#1A5F7A] px-8 py-3 rounded-lg hover:bg-blue-50 transition inline-block"
-            >
-              Login
-            </Link>
-          </div>
+          {!isAuthenticated && (
+            <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4 mb-16">
+              <Link 
+                to="/register" 
+                className="bg-[#FF6B35] text-white px-8 py-3 rounded-lg hover:bg-orange-600 transition inline-block"
+              >
+                Register Now
+              </Link>
+              <Link 
+                to="/login" 
+                className="border-2 border-[#1A5F7A] text-[#1A5F7A] px-8 py-3 rounded-lg hover:bg-blue-50 transition inline-block"
+              >
+                Login
+              </Link>
+            </div>
+          )}
 
           <LandingFeatures />
           
@@ -66,18 +71,20 @@ const Index = () => {
             </div>
           </div>
           
-          {/* Call to Action */}
-          <div className="mt-24 bg-[#1A5F7A] text-white p-12 rounded-lg">
-            <h2 className="text-3xl font-bold mb-4">Ready to Get Started?</h2>
-            <p className="text-lg mb-8 max-w-2xl mx-auto">
-              Join thousands of citizens who have simplified their interaction with government services through NyayaSetu.
-            </p>
-            <Link to="/register">
-              <Button className="bg-[#FF6B35] hover:bg-orange-600 text-white px-8 py-6 text-lg">
-                Register Now
-              </Button>
-            </Link>
-          </div>
+          {!isAuthenticated && (
+            <div className="mt-24 bg-[#1A5F7A] text-white p-12 rounded-lg">
+              <h2 className="text-3xl font-bold mb-4">Ready to Get Started?</h2>
+              <p className="text-lg mb-8 max-w-2xl mx-auto">
+                Join thousands of citizens who have simplified their interaction with government services through NyayaSetu.
+              </p>
+              <Link to="/register">
+                <Button className="bg-[#FF6B35] hover:bg-orange-600 text-white px-8 py-6 text-lg">
+                  Register Now
+                </Button>
+              </Link>
+            </div>
+          )}
+          
         </div>
       </main>
 

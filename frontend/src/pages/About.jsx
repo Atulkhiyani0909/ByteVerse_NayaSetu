@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { CheckCircle, Users, BarChart, Award } from 'lucide-react';
 import LandingHeader from '@/components/LandingHeader';

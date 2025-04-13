@@ -1,13 +1,51 @@
-
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Menu } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Button } from '@/components/ui/button';
 import TowerBridgeSVG from './icons/MainLogo';
+import { useAuth } from '../../hooks/auth-context';
 
 const LandingHeader = () => {
+  const { isAuthenticated, logout } = useAuth();
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
+
+  const AuthButtons = () => {
+    if (isAuthenticated) {
+      return (
+        <Button 
+          onClick={handleLogout}
+          className="bg-[#FF6B35] text-white px-4 py-2 rounded hover:bg-orange-600 transition"
+        >
+          Logout
+        </Button>
+      );
+    }
+
+    return (
+      <>
+        <Link 
+          to="/login" 
+          className="text-[#1A5F7A] hover:bg-blue-50 px-4 py-2 rounded"
+        >
+          Login
+        </Link>
+        <Link 
+          to="/register" 
+          className="bg-[#FF6B35] text-white px-4 py-2 rounded hover:bg-orange-600 transition"
+        >
+          Register
+        </Link>
+      </>
+    );
+  };
 
   const menuItems = [
     { label: 'Home', path: '/' },
@@ -20,6 +58,7 @@ const LandingHeader = () => {
   return (
     <header className="bg-white shadow-sm">
       <div className="container mx-auto flex justify-between items-center py-4 px-4">
+        {/* Logo and Title */}
         <div className="flex items-center space-x-4">
           <Link to="/">
             <div className="text-[#1A5F7A]">
@@ -29,7 +68,7 @@ const LandingHeader = () => {
           <h2 className="text-2xl font-bold text-[#1A5F7A]">NyayaSetu</h2>
         </div>
         
-        {/* Mobile menu button */}
+        {/* Mobile menu */}
         <div className="md:hidden">
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild>
@@ -50,20 +89,34 @@ const LandingHeader = () => {
                   </Link>
                 ))}
                 <div className="pt-4 flex flex-col space-y-3">
-                  <Link 
-                    to="/login" 
-                    className="text-center text-[#1A5F7A] border border-[#1A5F7A] px-4 py-2 rounded hover:bg-blue-50 transition"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    Login
-                  </Link>
-                  <Link 
-                    to="/register" 
-                    className="text-center bg-[#FF6B35] text-white px-4 py-2 rounded hover:bg-orange-600 transition"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    Register
-                  </Link>
+                  {isAuthenticated ? (
+                    <Button 
+                      onClick={() => {
+                        handleLogout();
+                        setIsOpen(false);
+                      }}
+                      className="bg-[#FF6B35] text-white px-4 py-2 rounded hover:bg-orange-600 transition"
+                    >
+                      Logout
+                    </Button>
+                  ) : (
+                    <>
+                      <Link 
+                        to="/login" 
+                        className="text-center text-[#1A5F7A] border border-[#1A5F7A] px-4 py-2 rounded hover:bg-blue-50 transition"
+                        onClick={() => setIsOpen(false)}
+                      >
+                        Login
+                      </Link>
+                      <Link 
+                        to="/register" 
+                        className="text-center bg-[#FF6B35] text-white px-4 py-2 rounded hover:bg-orange-600 transition"
+                        onClick={() => setIsOpen(false)}
+                      >
+                        Register
+                      </Link>
+                    </>
+                  )}
                 </div>
               </nav>
             </SheetContent>
@@ -88,19 +141,9 @@ const LandingHeader = () => {
           </ScrollArea>
         </div>
 
+        {/* Desktop Auth Buttons */}
         <div className="hidden md:flex space-x-4">
-          <Link 
-            to="/login" 
-            className="text-[#1A5F7A] hover:bg-blue-50 px-4 py-2 rounded"
-          >
-            Login
-          </Link>
-          <Link 
-            to="/register" 
-            className="bg-[#FF6B35] text-white px-4 py-2 rounded hover:bg-orange-600 transition"
-          >
-            Register
-          </Link>
+          <AuthButtons />
         </div>
       </div>
     </header>

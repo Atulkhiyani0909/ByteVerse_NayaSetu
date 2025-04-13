@@ -2,7 +2,6 @@ import mongoose, { Schema, model } from 'mongoose';
 
 const UserSchema = new Schema({
     FullName : {type : String,
-        required : true,
         minlength: 3, 
         maxlength: 10
     },

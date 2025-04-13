@@ -1,15 +1,52 @@
 
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { toast } from 'sonner';
+import axios from 'axios';
+import { BACKEND_URL } from '../lib/config';
+import { useAuth } from '../../hooks/auth-context';
 
 const Login = () => {
-  const handleSubmit = (e) => {
+  const { login } = useAuth();
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    Email: '',
+    Password: '',
+  });
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [id]: value
+    }));
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Login functionality would be implemented 
-    console.log('Login attempt');
+    setLoading(true);
+
+    try {
+      const response = await axios.post(`${BACKEND_URL}/auth/signin`, formData);
+      
+      if (response.data) {
+        login(response.data.AccessToken);
+        toast.success('Login successful!');
+        navigate('/'); 
+      }
+
+      console.log("Login Attempt");
+
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Login failed');
+      console.error('Login error:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -26,20 +63,24 @@ const Login = () => {
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
                 <Input 
-                  id="email" 
+                  id="Email" 
                   type="email" 
                   placeholder="your-email@example.com" 
-                  required 
+                  required
+                  value={formData.Email}
+                  onChange={handleChange}
                 />
               </div>
               
               <div className="space-y-2">
                 <Label htmlFor="password">Password</Label>
                 <Input 
-                  id="password" 
+                  id="Password" 
                   type="password" 
                   placeholder="••••••••" 
-                  required 
+                  required
+                  value={formData.Password}
+                  onChange={handleChange}
                 />
               </div>
               
@@ -60,8 +101,9 @@ const Login = () => {
               <Button 
                 type="submit" 
                 className="w-full bg-[#1A5F7A] hover:bg-[#164B61] text-white"
+                disabled={loading}
               >
-                Login
+                {loading ? 'Logging in...' : 'Login'}
               </Button>
             </form>
             

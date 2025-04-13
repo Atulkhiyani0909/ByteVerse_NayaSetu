@@ -12,6 +12,7 @@ import Services from "./pages/Services";
 import Complaint from "./pages/Complaint";
 import LegalAid from "./pages/LegalAid";
 import About from "./pages/About";
+import { AuthProvider } from "../hooks/auth-context"
 
 // Create a new QueryClient instance
 const queryClient = new QueryClient();
@@ -19,25 +20,27 @@ const queryClient = new QueryClient();
 const App = () => {
   return (
     <React.StrictMode>
-      <QueryClientProvider client={queryClient}>
-        <TooltipProvider>
-          <BrowserRouter>
-            <Toaster />
-            <Sonner />
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/services" element={<Services />} />
-              <Route path="/complaint" element={<Complaint />} />
-              <Route path="/legal-aid" element={<LegalAid />} />
-              <Route path="/about" element={<About />} />
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </BrowserRouter>
-        </TooltipProvider>
-      </QueryClientProvider>
+      <AuthProvider>
+        <QueryClientProvider client={queryClient}>
+          <TooltipProvider>
+            <BrowserRouter>
+              <Toaster />
+              <Sonner />
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/services" element={<Services />} />
+                <Route path="/complaint" element={<Complaint />} />
+                <Route path="/legal-aid" element={<LegalAid />} />
+                <Route path="/about" element={<About />} />
+                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </BrowserRouter>
+          </TooltipProvider>
+        </QueryClientProvider>
+      </AuthProvider>
     </React.StrictMode>
   );
 };

@@ -10,7 +10,6 @@ const JWTseceret = process.env.ACCESS_TOKEN_SECRET;
 
 router.post("/signup", async (req, res) => {
     const {FullName, Email, PhoneNumber, Password} = req.body;
-    console.log(req.body);
     
     try {
 
@@ -45,9 +44,9 @@ router.post("/signup", async (req, res) => {
 });
 
 router.post("/signin", async (req ,res)=>{
-    const { username, password } = req.body;
+    const { Email, Password } = req.body;
     try {
-        const oldUser = await UserModel.findOne({ username });
+        const oldUser = await UserModel.findOne({ Email });
         if(!oldUser){
             res.status(409).json({
                 message : "Invalid Username or Password"
@@ -55,7 +54,7 @@ router.post("/signin", async (req ,res)=>{
             return;
         };
 
-        const matchUser = await bcrypt.compare(password, oldUser.password);
+        const matchUser = await bcrypt.compare(Password, oldUser.Password);
         if (!matchUser){
             res.status(403).json({
                 message : "Invalid Username or Password"
