@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label';
 const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Login functionality would be implemented here
+    // Login functionality would be implemented 
     console.log('Login attempt');
   };
 
