@@ -1,13 +1,12 @@
 import { Router } from "express";
-import 'express-async-errors';
 import jwt from "jsonwebtoken";
-import * as bcrypt from 'bcrypt';
-import { ACCESS_TOKEN_SECRET } from "./config";
+import bcrypt from 'bcrypt';
+import { ACCESS_TOKEN_SECRET } from "../utils/config";
 import { UserModel } from "../models/auth.model";
 
 const router = Router();
-router.use(express.json());
 
+console.log(ACCESS_TOKEN_SECRET);
 
 router.post("/signup", async (req, res) => {
     const username = req.body.username;
