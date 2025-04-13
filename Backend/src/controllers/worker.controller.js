@@ -91,7 +91,7 @@ const AccessAndRefreshToken =async (workerID)=>{
 
 
 const getTickets=async(req,res)=>{
-    const id='67fa67997058edc85bfb78a8';  
+    const id=req.userId;
 
     try {
         const worker=await Worker.findById(id).select('-password -refreshToken');

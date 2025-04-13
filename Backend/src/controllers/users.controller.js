@@ -4,9 +4,9 @@ import Call from '../models/calls.model.js'
 import mongoose from 'mongoose';
 import Lawyer from '../models/lawyer.model.js'
 
-const AccessAndRefreshToken =async (lawyerID)=>{
+const AccessAndRefreshToken =async (userID)=>{
     try {
-      const user = await User.findById(lawyerID);
+      const user = await User.findById(userID);
        const refreshToken = await user.generateRefreshToken();
        const AccessToken=await user.generateAccessToken();
        user.refreshToken=refreshToken;
@@ -91,7 +91,7 @@ const loginUser=async(req,res)=>{
 
 const updateProfileImages = async (req, res) => {
   try {
-    const userId = req.user._id; //  from auth middleware (JWT/session)
+    const userId = req.userId; //  from auth middleware (JWT/session)
     const user = await User.findById(userId);
     if (!user) return res.status(404).json({ error: "User not found" });
 
@@ -125,7 +125,7 @@ const updateProfileImages = async (req, res) => {
 const makeCall = async (req, res) => {
     try {
       const { lawyerId } = req.body;
-      const userId = req.user._id; //  user is authenticated and ID is in req.user
+      const userId = req.userId; //  user is authenticated and ID is in req.user
   
       if (!lawyerId) {
         return res.status(400).json({ error: "Lawyer ID is required" });
@@ -161,7 +161,7 @@ const makeCall = async (req, res) => {
 
 const getCallHistory=async(req,res)=>{ //get the calls details -> update to get the nested lookup to get the userinfo through calls userID
  try {
-   const {id}=req.params;
+   const id=req.userId;
    
    const callsHistory=await User.aggregate([
      {

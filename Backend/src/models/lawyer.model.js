@@ -69,7 +69,7 @@ lawyerSchema.methods.generateRefreshToken=async function(){
     return jwt.sign({
         _id:this._id
     },
-    Process.env.REFRESH_TOKEN_SECRET,
+    process.env.REFRESH_TOKEN_SECRET,
     {
         expiresIn:process.env.REFRESH_TOKEN_EXPIRY
     }

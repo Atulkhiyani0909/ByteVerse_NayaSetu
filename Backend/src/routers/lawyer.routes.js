@@ -1,6 +1,7 @@
 import {Router} from 'express'
 import {upload} from '../middlewares/multer.middleware.js'
-import { getCallHistory, loginLawyer, registerLawyer, updateCall, updateFees } from '../controllers/lawyer.controller.js'
+import { userMiddleware } from '../middlewares/auth.middleware.js'
+import { getCallHistory, lawyerProfile, loginLawyer, registerLawyer, updateCall, updateFees } from '../controllers/lawyer.controller.js'
 
 const router=Router()
 
@@ -22,11 +23,13 @@ router.route('/register').post(
 
     router.route('/login').post(loginLawyer)
 
-    router.route('/update-fees/:id').post(updateFees)
+    router.route('/update-fees').put(userMiddleware,updateFees)
 
-    router.route('/get-call-history/:id').get(getCallHistory)
+    router.route('/get-call-history').get(userMiddleware,getCallHistory)
 
-    router.route('/update-call/:Call_id').put(upload.single('proof'), updateCall);
+    router.route('/update-call/:Call_id').put(userMiddleware,upload.single('proof'), updateCall);
+
+    router.route('/profile/:id').get(lawyerProfile);
 
 
 

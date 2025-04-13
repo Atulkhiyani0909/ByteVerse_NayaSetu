@@ -9,7 +9,11 @@ const AccessAndRefreshToken =async (lawyerID)=>{
        const refreshToken = await lawyer.generateRefreshToken();
        const AccessToken=await lawyer.generateAccessToken();
        lawyer.refreshToken=refreshToken;
-       await lawyer.save({validateBeforeSave:false})
+       console.log("Insert It");
+       
+       const data=await lawyer.save({validateBeforeSave:false})
+       console.log(data);
+       
   
        return {AccessToken,refreshToken};
     } catch (error) {
@@ -18,47 +22,45 @@ const AccessAndRefreshToken =async (lawyerID)=>{
 }
   
   
-const registerLawyer=async(req,res)=>{
-    try {
-      let {Name,email,phoneNumber,password,city,state}=req.body;
-      const image=await uploadToCloudinary(req.files.image[0].path);
-  
-      if(!image) return "Error in uploading Image to Cloud"
-  
-      const gov_id=await uploadToCloudinary(req.files.gov_id[0].path);
-  
-      if(!gov_id) return "Error in uploading ID to Cloud"
-  
-      const newLawyer=await Lawyer.create({
-          Name:Name,
-          email:email,
-          location:{
-              city:city,
-              state:state
-          },
-          password:password,
-          image:image.secure_url,
-          ID_proof:gov_id.secure_url,
-          phoneNumber:phoneNumber
-      })
-  
-      if(!newLawyer) return 'Error in Saving Data'
-  
-      const lawyer=await Lawyer.findById(newLawyer._id).select('-password');
-  
-      if(!lawyer) return "Error Occured"
-  
-      let {AccessToken,refreshToken}=await AccessAndRefreshToken(lawyer._id);
-  
-      return res.status(200).cookie('refreshToken',refreshToken).cookie('accessToken',AccessToken).json({
-          lawyer
-      })
-    } catch (error) {
-      return res.status(401).json({
-        error
-      })
+const registerLawyer = async (req, res) => {
+  try {
+    const { Name, email, phoneNumber, password, city, state } = req.body;
+
+    if (!req.files || !req.files.image || !req.files.gov_id) {
+      return res.status(400).json({ message: "Image and Gov ID are required" });
     }
-}
+
+    const imageUpload = await uploadToCloudinary(req.files.image[0].path);
+    const govIdUpload = await uploadToCloudinary(req.files.gov_id[0].path);
+
+    if (!imageUpload || !govIdUpload) {
+      return res.status(500).json({ message: "Error uploading to Cloudinary" });
+    }
+
+    const newLawyer = await Lawyer.create({
+      Name,
+      email,
+      location: { city, state },
+      password,
+      image: imageUpload.secure_url,
+      ID_proof: govIdUpload.secure_url,
+      phoneNumber,
+    });
+
+    const lawyer = await Lawyer.findById(newLawyer._id).select('-password');
+    const { AccessToken, refreshToken } = await AccessAndRefreshToken(lawyer._id);
+
+    return res.status(200)
+      .cookie('refreshToken', refreshToken)
+      .cookie('accessToken', AccessToken)
+      .json({ lawyer , AccessToken  });
+
+  } catch (error) {
+    console.error("Registration Error:", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 
 const loginLawyer=async(req,res)=>{
   try {
@@ -98,10 +100,10 @@ const loginLawyer=async(req,res)=>{
 
 const updateFees=async(req,res)=>{
 try {
-    const {id}=req.params
-    let {cost}=req.body;
-  
+    const id=req.userId
+    console.log(req.userId);
     
+    let {cost}=req.body;
     
     const lawyer=await Lawyer.findById(id).select('-password -refreshToken');
   
@@ -124,6 +126,7 @@ try {
 const updateCall = async (req, res) => {
   
     try {
+      const id=req.userId;
       const { Call_id } = req.params;
   
       if (!req.body) {
@@ -154,7 +157,7 @@ const updateCall = async (req, res) => {
         return res.status(404).json({ error: "No call history found" });
       }
   
-      const lawyer = await Lawyer.findById("67fb46cd1a426b324611acc4");
+      const lawyer = await Lawyer.findById(id);
       if (!lawyer) {
         return res.status(404).json({ error: "Lawyer not found" });
       }
@@ -179,7 +182,9 @@ const updateCall = async (req, res) => {
 
 const getCallHistory=async(req,res)=>{ //get the calls details -> update to get the nested lookup to get the userinfo through calls userID
  try {
-   const {id}=req.params;
+   const id=req.userId;
+   console.log(req.userId);
+   
    
    const callsHistory=await Lawyer.aggregate([
      {
@@ -226,4 +231,25 @@ const getCallHistory=async(req,res)=>{ //get the calls details -> update to get 
   
 }
 
-export {registerLawyer,updateFees,loginLawyer,getCallHistory ,updateCall}
+const lawyerProfile=async(req,res)=>{
+  try {
+    const {id}=req.params;
+
+    const lawyer=await Lawyer.findById(id).select('-password -refreshToken');
+
+    if(!lawyer){
+      return res.status(400).json({message:'Laywer Not found'});
+    }
+
+    return res.status(200).json({
+      lawyer
+    })
+
+  } catch (error) {
+    return res.status(401).json({
+      error , message:"Error in fetching Lawyer Profile"
+    })
+  }
+}
+
+export {registerLawyer,updateFees,loginLawyer,getCallHistory ,updateCall , lawyerProfile}

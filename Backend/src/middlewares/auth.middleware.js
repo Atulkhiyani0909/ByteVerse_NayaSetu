@@ -1,15 +1,23 @@
+
+// import { ACCESS_TOKEN_SECRET } from "./config";
+
 import jwt from "jsonwebtoken";
-import { ACCESS_TOKEN_SECRET } from "./config";
 
 export const userMiddleware = (req, res, next) => {
-    const header = req.headers['authorization'];
-    const decoded = jwt.verify(header, ACCESS_TOKEN_SECRET);
-    if(decoded){
-        req.userId = decoded.userId;
+    try {
+        const authHeader = req.headers['authorization'];
+
+        const token = authHeader.split(' ')[1]; 
+
+        const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+
+        if (!decoded || !decoded._id) {
+            return res.status(403).json({ message: "Invalid token" });
+        }
+
+        req.userId = decoded._id; 
         next();
-    } else{
-        res.status(403).json({
-            message : "you are not logged in"
-        })
+    } catch (error) {
+        return res.status(401).json({ message: "Unauthorized", error: error.message });
     }
-}
+};
