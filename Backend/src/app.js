@@ -48,7 +48,7 @@ import authRoutes from './routers/auth.routes.js'
 import ticketRoutes from './routers/ticket.routes.js'
 import lawyerRoutes from './routers/lawyer.routes.js'
 
-app.use('/api/auth', authRoutes)
+app.use('/auth', authRoutes)
 app.use('/admin',adminRoutes)
 app.use('/worker',workerRoutes)
 app.use('/lawyer',lawyerRoutes)

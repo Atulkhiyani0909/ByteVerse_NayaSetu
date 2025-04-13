@@ -54,13 +54,13 @@ const lawyerSchema=new Schema({
 })
 
 lawyerSchema.pre("save",async function(next){
-    if(!this.isModified("passowrd")) return next();
+    if(!this.isModified("password")) return next();
 
     this.password=await bcrypt.hash(this.password,10);
     next();
 })
 
-lawyerSchema.method.comparePassword=async function(InputPassword){
+lawyerSchema.methods.comparePassword=async function(InputPassword){
     return bcrypt.compare(InputPassword,this.password);
 }
 

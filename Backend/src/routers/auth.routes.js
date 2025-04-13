@@ -1,12 +1,12 @@
 import { Router } from "express";
 import jwt from "jsonwebtoken";
 import bcrypt from 'bcrypt';
-import { ACCESS_TOKEN_SECRET } from "../utils/config";
-import { UserModel } from "../models/auth.model";
+import { UserModel } from "../models/auth.model.js";
+import dotenv from 'dotenv';
 
+dotenv.config()
 const router = Router();
-
-console.log(ACCESS_TOKEN_SECRET);
+const JWTseceret = process.env.ACCESS_TOKEN_SECRET;
 
 router.post("/signup", async (req, res) => {
     const username = req.body.username;
@@ -61,7 +61,7 @@ router.post("/signin", async (req ,res)=>{
             return;
         };
 
-        const accesToken = jwt.sign({ userId : oldUser._id }, ACCESS_TOKEN_SECRET);
+        const accesToken = jwt.sign({ userId : oldUser._id }, JWTseceret);
         res.status(200).json({ accesToken : accesToken });
 
     } catch(e) {
