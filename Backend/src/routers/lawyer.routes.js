@@ -26,7 +26,8 @@ router.route('/register').post(
 
     router.route('/get-call-history/:id').get(getCallHistory)
 
-    router.route('/update-call/:Call_id').post(upload.single("callProof"),updateCall)
+    router.route('/update-call/:Call_id').put(upload.single('proof'), updateCall);
+
 
 
 export default router

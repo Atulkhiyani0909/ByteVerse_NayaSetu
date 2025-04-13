@@ -108,18 +108,20 @@ const updateCall = async (req, res) => {
     if (!req.body) {
       return res.status(400).json({ error: "Request body is missing" });
     }
+    
 
     let { callTime } = req.body;
+    
+    
 
     if (!callTime) {
       return res.status(400).json({ error: "callTime is required" });
     }
 
     let proofUrl;
-    console.log(req.files?.callProof?.path);
     
-    if (req.files) {
-      const proof = await uploadToCloudinary(req.files?.callProof?.path);
+    if (req.file) {
+      const proof = await uploadToCloudinary(req.file?.path);
       if (!proof) {
         return res.status(500).json({ error: "Cloud Error" });
       }
