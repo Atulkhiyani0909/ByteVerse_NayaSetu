@@ -1,53 +1,54 @@
 import mongoose from 'mongoose'
 
-const {Schema} =mongoose;
+const { Schema } = mongoose;
 
-const ticketSchema= new Schema({
-    title:{
-        type:String,
-        required:true,
+const ticketSchema = new Schema({
+    title: {
+        type: String,
+        required: true,
     },
-    description:{
-        type:String,
-        required:true
+    description: {
+        type: String,
+        required: true
     },
-    status:{
-        type:String,
-        enum:["Solved","Pending"],
-        default:"Pending"
+    department: {
+        type: String,
+        required: true,
     },
-    owner:{
-      type:Schema.Types.ObjectId,
-      ref:"User"
+    status: {
+        type: String,
+        enum: ["Solved", "Pending"],
+        default: "Pending"
     },
-    Name:{
-        type:String,
-        required:true
+    owner: {
+        // type: Schema.Types.ObjectId || String,
+        type: String,
+        ref: "User"
     },
-    evidence:{
-        type:String
+    evidence: {
+        type: String
     },
-    officerName:{
-        type:String
+    officerName: {
+        type: String
     },
-    location:{
-        city:{
-            type:String,
-            required:true
+    location: {
+        city: {
+            type: String,
+            required: true
         },
-        state:{
-           type:String,
-           required:true
+        state: {
+            type: String,
+            required: true
         }
     },
-    isAnonymously:{
-        type:Boolean,
-        default:false
+    isAnonymously: {
+        type: Boolean,
+        default: false
     }
 
-},{
-    timestamps:true
+}, {
+    timestamps: true
 })
 
-const Ticket=mongoose.model('Ticket',ticketSchema);
+const Ticket = mongoose.model('Ticket', ticketSchema);
 export default Ticket

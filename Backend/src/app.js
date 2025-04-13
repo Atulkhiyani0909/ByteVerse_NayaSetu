@@ -3,10 +3,10 @@ import cookieParser from 'cookie-parser'
 import Worker from './models/worker.model.js';
 import Admin from './models/admin.model.js';
 
-const app=express();
+const app = express();
 
 app.use(express.json())
-app.use(express.urlencoded({extended:true}))
+app.use(express.urlencoded({ extended: true }))
 
 app.use(express.static('public'))
 app.use(cookieParser())
@@ -14,7 +14,10 @@ app.use(cookieParser())
 
 
 import adminRoutes from './routers/admin.routes.js'
-app.use('/admin',adminRoutes)
+import ticketRoutes from './routers/ticket.routes.js'
 
-export default app 
+app.use('/admin', adminRoutes)
+app.use('/tickets', ticketRoutes);
+
+export default app
 
