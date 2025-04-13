@@ -8,7 +8,7 @@ const AccessAndRefreshToken =async (lawyerID)=>{
       const lawyer = await Lawyer.findById(lawyerID);
        const refreshToken = await lawyer.generateRefreshToken();
        const AccessToken=await lawyer.generateAccessToken();
-       admin.refreshToken=refreshToken;
+       lawyer.refreshToken=refreshToken;
        await lawyer.save({validateBeforeSave:false})
   
        return {AccessToken,refreshToken};

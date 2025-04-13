@@ -3,6 +3,8 @@ import Ticket from '../models/tickets.model.js';
 
 export const createTicket = async (req, res) => {
     try {
+        console.log(req.body);
+        
         const ticketData = {
             ...req.body,
 

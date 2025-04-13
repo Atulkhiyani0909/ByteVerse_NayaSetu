@@ -38,6 +38,14 @@ const userSchema=new Schema({
     },
     refreshToken:{
         type:String
+    },
+    location:{
+        city:{
+            type:String
+        },
+        state:{
+            type:String
+        }
     }
 },{
     timestamps:true

@@ -10,7 +10,7 @@ const AccessAndRefreshToken =async (workerID)=>{
       const worker = await Worker.findById(workerID);
        const refreshToken = await Worker.generateRefreshToken();
        const AccessToken=await Worker.generateAccessToken();
-       Worker.refreshToken=refreshToken;
+       worker.refreshToken=refreshToken;
        await Worker.save({validateBeforeSave:false})
   
        return {AccessToken,refreshToken};
