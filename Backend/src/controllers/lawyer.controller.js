@@ -24,7 +24,7 @@ const AccessAndRefreshToken =async (lawyerID)=>{
   
 const registerLawyer = async (req, res) => {
   try {
-    const { Name, email, phoneNumber, password, city, state } = req.body;
+    const { Name, email, phoneNumber, password, city, state , speciality,experience} = req.body;
 
     if (!req.files || !req.files.image || !req.files.gov_id) {
       return res.status(400).json({ message: "Image and Gov ID are required" });
@@ -45,6 +45,8 @@ const registerLawyer = async (req, res) => {
       image: imageUpload.secure_url,
       ID_proof: govIdUpload.secure_url,
       phoneNumber,
+      speciality,
+      experience
     });
 
     const lawyer = await Lawyer.findById(newLawyer._id).select('-password');
@@ -241,9 +243,7 @@ const lawyerProfile=async(req,res)=>{
       return res.status(400).json({message:'Laywer Not found'});
     }
 
-    return res.status(200).json({
-      lawyer
-    })
+    return res.status(200).json(lawyer)
 
   } catch (error) {
     return res.status(401).json({
@@ -252,4 +252,16 @@ const lawyerProfile=async(req,res)=>{
   }
 }
 
-export {registerLawyer,updateFees,loginLawyer,getCallHistory ,updateCall , lawyerProfile}
+const allLawyers=async(req,res)=>{
+  try {
+    const lawyers=await Lawyer.find({}).select('-password -refreshToken -ID_proof -totalConnects');
+    
+    return res.status(200).json(lawyers)
+  } catch (error) {
+    return res.status(400).json({
+      error , message:"Error in fetching Lawyers"
+    })
+  }
+}
+
+export {registerLawyer,updateFees,loginLawyer,getCallHistory ,updateCall , lawyerProfile,allLawyers}

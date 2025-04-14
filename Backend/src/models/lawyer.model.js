@@ -22,6 +22,13 @@ const lawyerSchema=new Schema({
         type:Number,
         default:0
     },
+    speciality:{
+       type:String,
+       required:true
+    },
+    ratings:{
+        type:Number
+    },
     ID_proof:{
         type:String,
         required:true
@@ -45,6 +52,10 @@ const lawyerSchema=new Schema({
         state:{
             type:String
         }
+    },
+    experience:{
+        type:Number,
+        required:true
     },
     refreshToken:{
         type:String

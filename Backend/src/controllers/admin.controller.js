@@ -123,7 +123,21 @@ const pendingComplaints=async(req,res)=>{
     })
 }
 
+//for demo 
+const allTickets=async(req,res)=>{
+  try {
+    const tickets=await Ticket.find({});
+    return res.status(200).json(tickets);
+  } catch (error) {
+    console.log(error);
+    
+    return res.status(400).json({
+      error , message:"Error in getting tickets"
+    });
+  }
+}
 
 
 
-export {allWorker,registerAdmin,loginAdmin,pendingComplaints}
+
+export {allWorker,registerAdmin,loginAdmin,pendingComplaints,allTickets}

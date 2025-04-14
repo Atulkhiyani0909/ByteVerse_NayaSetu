@@ -5,9 +5,8 @@ import {
   getCallHistory,
   makeCall,
   updateProfileImages
-} from "../controllers/user.controller.js";
+} from '../controllers/users.controller.js';
 import { userMiddleware } from "../middlewares/auth.middleware.js";
-import { verifyUser } from "../middleware/auth.js";
 import upload from "../middleware/multer.js";
 
 const router = Router();
@@ -18,7 +17,7 @@ router.route('/register').post(registerUser);
 router.route('/login').post(loginUser);
 
 
-router.route('/make-call').post(userMiddleware,makeCall);
+router.route('/make-call/:lawyerId').post(userMiddleware,makeCall);
 
 
 router.route('/call-history').get(userMiddleware,getCallHistory);

@@ -124,7 +124,7 @@ const updateProfileImages = async (req, res) => {
 
 const makeCall = async (req, res) => {
     try {
-      const { lawyerId } = req.body;
+      const { lawyerId } = req.params;
       const userId = req.userId; //  user is authenticated and ID is in req.user
   
       if (!lawyerId) {
