@@ -53,6 +53,7 @@ const LandingHeader = () => {
     { label: 'Complaint', path: '/complaint' },
     { label: 'Legal Aid', path: '/legal-aid' },
     { label: 'About', path: '/about' },
+    { label: 'Admin Dashboard', path: '/adminDashboard' },
   ];
 
   return (

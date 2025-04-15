@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Scale, FileSearch, MessageSquare, Calendar } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import LandingHeader from '@/components/LandingHeader';
@@ -7,39 +7,30 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Separator } from '@/components/ui/separator';
+import axios from 'axios'
+import LawyerProfile from './lawyerProfile';
 
-const lawyers = [
-  {
-    name: "Priya Sharma",
-    specialty: "Family Law",
-    experience: "12 years",
-    rating: 4.8,
-    image: "/placeholder.svg"
-  },
-  {
-    name: "Rajesh Kumar",
-    specialty: "Criminal Law",
-    experience: "15 years",
-    rating: 4.9,
-    image: "/placeholder.svg"
-  },
-  {
-    name: "Ananya Patel",
-    specialty: "Corporate Law",
-    experience: "8 years",
-    rating: 4.7,
-    image: "/placeholder.svg"
-  },
-  {
-    name: "Vikram Singh",
-    specialty: "Constitutional Law",
-    experience: "20 years",
-    rating: 5.0,
-    image: "/placeholder.svg"
-  }
-];
 
 const LegalAid = () => {
+
+  const [lawyers, setLawyers] = useState([]);
+
+  useEffect(() => {
+    const getLawyers = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/lawyer/get-lawyers');
+        setLawyers(response.data);
+      } catch (error) {
+        console.error('Error fetching lawyers:', error);
+      }
+    };
+
+    getLawyers();
+  }, []);
+
+
+
+
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
       <LandingHeader />
@@ -92,8 +83,6 @@ const LegalAid = () => {
             </Card>
           ))}
         </div>
-        
-        {/* Pro Bono Section */}
         <div className="bg-white rounded-lg shadow-md p-8 mb-16">
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
             <div>
@@ -104,9 +93,6 @@ const LegalAid = () => {
                 with pro bono advocates.
               </p>
             </div>
-            <Button className="bg-[#FF6B35] hover:bg-orange-600 text-white whitespace-nowrap">
-              Check Eligibility
-            </Button>
           </div>
         </div>
         
@@ -121,25 +107,30 @@ const LegalAid = () => {
               <Card key={index} className="transition hover:shadow-lg">
                 <CardHeader className="text-center pt-6">
                   <Avatar className="h-24 w-24 mx-auto mb-4">
-                    <AvatarImage src={lawyer.image} alt={lawyer.name} />
-                    <AvatarFallback>{lawyer.name.charAt(0)}</AvatarFallback>
+                    <AvatarImage src={lawyer.image} alt={lawyer.Name} />
+                    <AvatarFallback>{lawyer.Name.charAt(0)}</AvatarFallback>
                   </Avatar>
-                  <CardTitle>{lawyer.name}</CardTitle>
-                  <CardDescription>{lawyer.specialty}</CardDescription>
+                  <CardTitle>{lawyer.Name}</CardTitle>
+                  <CardDescription><span>Speciality : </span>{lawyer.speciality}</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="flex justify-between text-sm">
                     <span>Experience:</span>
-                    <span className="font-medium">{lawyer.experience}</span>
+                    <span className="font-medium">{lawyer.experience} Years</span>
                   </div>
                   <Separator className="my-2" />
                   <div className="flex justify-between text-sm">
                     <span>Rating:</span>
-                    <span className="font-medium">{lawyer.rating}/5.0</span>
+                    <span className="font-medium">{lawyer.ratings}/5.0</span>
                   </div>
                 </CardContent>
                 <CardFooter>
-                  <Button variant="outline" className="w-full">View Profile</Button>
+                <Link to={`/lawyerprofile/${lawyer._id}`} className="w-full">
+                          <Button variant="outline" className="w-full">
+                              View Profile
+                          </Button>
+                </Link>
+
                 </CardFooter>
               </Card>
             ))}
@@ -173,5 +164,4 @@ const LegalAid = () => {
     </div>
   );
 };
-
 export default LegalAid;

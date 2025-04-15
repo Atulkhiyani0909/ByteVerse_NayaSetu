@@ -12,7 +12,9 @@ import Services from "./pages/Services";
 import Complaint from "./pages/Complaint";
 import LegalAid from "./pages/LegalAid";
 import About from "./pages/About";
+import LawyerProfile from './pages/lawyerProfile'
 import { AuthProvider } from "../hooks/auth-context"
+import Dashboard from "./pages/dashboard"
 
 // Create a new QueryClient instance
 const queryClient = new QueryClient();
@@ -34,6 +36,8 @@ const App = () => {
                 <Route path="/complaint" element={<Complaint />} />
                 <Route path="/legal-aid" element={<LegalAid />} />
                 <Route path="/about" element={<About />} />
+                <Route path="/lawyerProfile/:id" element={<LawyerProfile/>}/>
+                <Route path="/adminDashboard" element={<Dashboard/>}/>
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>
